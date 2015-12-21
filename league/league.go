@@ -1,5 +1,9 @@
 package league
 
+import (
+	"fmt"
+)
+
 type Conference struct {
 	name string
 	divisions []*Division
@@ -55,9 +59,18 @@ func SetUpLeague () map[string]map[string][]string {
 		 		},
 		 },
 	}
-	// team_data := map[string]map[string]string{
-	// 	"a": map[string]string{"a":"b"},
-	// 	 "b": map[string]string{"b":"c"},
-	// }
+	league := []*Conference{}
+	for con_name, con_vals := range team_data {
+		*con := Conference{con_name, []*Division{}}
+		league = append(league, con)
+		for div_name, div_vals := range con_vals {
+			*div := D*ivision{"div_name", []*Team{}, &con}
+			&con.divisions = append(&con.divisions, &div)
+			for team_name := div_vals {
+				&div.teams = append(&div.teams, NewTeam(team_name, div, con))
+			}
+		}
+	} 	
+	fmt.Println(league)
 	return team_data
 }
