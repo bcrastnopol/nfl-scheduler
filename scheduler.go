@@ -1,10 +1,12 @@
 package main
 import (
 	"fmt"
-	"nfl-scheduler/libs"
+	"nfl-scheduler/league"
 )
+
 func main() {
 	fmt.Println("hello")
-	Eagles := teams.NewTeam("Eagles", "East",  "NFC")
-	fmt.Println(Eagles)
+	// c := Conference{'XFL', }
+	// fmt.Println(Eagles)
+	league.SetUpLeague()
 }
