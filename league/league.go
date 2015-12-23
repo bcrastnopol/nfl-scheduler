@@ -27,7 +27,7 @@ func NewTeam(name string, division *Division, conference *Conference) *Team {
 	return &Team{name, division, conference, []*Team{}, []*Team{}}
 }
 
-func SetUpLeague() map[string]map[string][]string {
+func SetUpLeague() []*Conference {
 	team_data := map[string]map[string][]string{
 		"NFC": map[string][]string{
 			"North": []string{
@@ -62,6 +62,7 @@ func SetUpLeague() map[string]map[string][]string {
 
 	for con_name, con_vals := range team_data {
 		con := &Conference{con_name, []*Division{}}
+		_ = "breakpoint"
 		league = append(league, con)
 		for div_name, div_vals := range con_vals {
 			div := &Division{div_name, []*Team{}, con}
@@ -71,6 +72,8 @@ func SetUpLeague() map[string]map[string][]string {
 			}
 		}
 	}
-	fmt.Println(&league)
-	return team_data
+	for l, _ := range league {
+		fmt.Println(&l)
+	}
+	return league
 }
