@@ -7,8 +7,8 @@ import (
 
 func main() {
 	fmt.Println("hello")
-	// c := Conference{'XFL', }
-	// fmt.Println(Eagles)
-	nfl := league.SetUpLeague()
-	fmt.println(nfl)
+	var nfl league.Linterface = league.SetUpLeague("NFL")
+	_ = "breakpoint"
+	fmt.Println(nfl)
+
 }
