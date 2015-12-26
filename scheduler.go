@@ -7,7 +7,7 @@ import (
 
 func main() {
 	fmt.Println("hello")
-	var nfl league.Linterface = league.SetUpLeague("NFL")
+	nfl := league.SetUpLeague("NFL")
 	_ = "breakpoint"
 	fmt.Println(nfl)
 
