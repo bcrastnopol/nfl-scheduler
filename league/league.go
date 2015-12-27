@@ -62,6 +62,5 @@ func SetUpLeague(name string) *League {
 			}
 		}
 	}
-
 	return league
 }

@@ -8,3 +8,7 @@ type Conference struct {
 func (conference *Conference) GetDivisions() map[string]*Division {
 	return conference.divisions
 }
+
+func (conference *Conference) GetName() string {
+	return conference.name
+}
