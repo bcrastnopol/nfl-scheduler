@@ -32,10 +32,12 @@ type IDivision interface {
 
 //team interface
 type ITeam interface {
-	AddWin(team *Team) *Team
-	// AddLoss() *Team
+	PlayGame(team *Team)
 	onSchedule(team *Team) bool
 	GetWins() []*Team
-	GetLosser() []*Team
+	GetLosses() []*Team
 	GetSchedule() []*Team
+	appendWin()
+	appendLoss()
+	appendToSchedule()
 }
