@@ -1,53 +1,60 @@
 package league
 
+// type Ninterface interface {
+// 	GetName() string
+// }
+
 //league interface
 type Linterface interface {
-	GetConferences() map[string]Cinterface
+	GetConferences() map[string]*Conference
 }
 
 type League struct {
 	name        string
-	conferences map[string]Cinterface
+	conferences map[string]*Conference
 }
 
-func (league *League) GetConferences() map[string]Cinterface {
+func (league *League) GetConferences() map[string]*Conference {
 	return league.conferences
 }
 
 //conference interface
 type Cinterface interface {
-	GetDivisions() map[string]Dinterface
+	GetDivisions() map[string]*Division
 }
 
 type Conference struct {
 	name      string
-	divisions map[string]Dinterface
+	divisions map[string]*Division
 }
 
-func (conference *Conference) GetDivisions() map[string]Dinterface {
+func (conference *Conference) GetDivisions() map[string]*Division {
 	return conference.divisions
 }
 
 //division interface
 type Dinterface interface {
-	GetTeams() map[string]Tinterface
+	GetTeams() map[string]*Team
 }
 
 type Division struct {
 	name      string
-	teams     map[string]Tinterface
+	teams     map[string]*Team
 	confrence *Conference
 }
 
-func (division *Division) GetTeams() map[string]Tinterface {
+func (division *Division) GetTeams() map[string]*Team {
 	return division.teams
 }
 
 //team interface
 type Tinterface interface {
-	// AddWin() *Team
+	AddWin(team *Team) *Team
 	// AddLoss() *Team
-	// onSchedule() bool
+	onSchedule(team *Team) bool
+	GetWins() []*Team
+	GetLosser() []*Team
+	GetSchedule() []*Team
 }
 
 type Team struct {
@@ -64,28 +71,46 @@ func NewTeam(
 	return &Team{name, division, conference, []*Team{}, []*Team{}, []*Team{}}
 }
 
-func onSchedule(team, scheduled *Team) bool {
-	_ = "breakpoint"
-	for _, t := range team.schedule {
-		if scheduled == t {
-			return true
-		}
-	}
-	return false
+func (team *Team) GetWins() []*Team {
+	return team.wins
 }
 
-// func AddWin(team, defeated *Team) *Team{
-// 	if team
-// 		log.Fatal("Team isn't on schedule")
-// 	if team.division == defeated.division
-// 	for _, w :range.team {
-// 		if team == w {
+func (team *Team) GetLosses() []*Team {
+	return team.losses
+}
 
+func (team *Team) GetSchedule() []*Team {
+	return team.schedule
+}
+
+// func (team *Team) onSchedule(scheduled *Team) bool {
+// 	_ = "breakpoint"
+// 	for _, t := range team.GetSchedule() {
+// 		if scheduled == t {
+// 			return true
+// 		}
+// 	}
+// 	return false
+// }
+
+// func (team *Team) AddWin(defeated *Team) *Team{
+// 	if team.onSchedule(defeated){
+// 		log.Fatal("Team isn't on schedule")
+// 	}
+// 	played := 0
+// 	for _, w :range team.GetWins() {
+// 		if team == w {
+// 			played++
+// 			if
 // 		}
 // 	}
 // }
 
-func SetUpLeague(name string) Linterface {
+// func (team *Team) GetName() string {
+// 	return team.name
+// }
+
+func SetUpLeague(name string) *League {
 	//XXX very NFL specific, but I imagine this could be adapted for other league
 	//configurations
 	team_data := map[string]map[string][]string{
@@ -118,12 +143,12 @@ func SetUpLeague(name string) Linterface {
 			},
 		},
 	}
-	var league Linterface = &League{name, map[string]Cinterface{}}
+	league := &League{name, map[string]*Conference{}}
 	for con_name, con_vals := range team_data {
-		con := &Conference{con_name, map[string]Dinterface{}}
+		con := &Conference{con_name, map[string]*Division{}}
 		league.GetConferences()[con_name] = con
 		for div_name, div_vals := range con_vals {
-			div := &Division{div_name, map[string]Tinterface{}, con}
+			div := &Division{div_name, map[string]*Team{}, con}
 			con.GetDivisions()[div_name] = div
 			for _, team_name := range div_vals {
 				div.GetTeams()[team_name] = NewTeam(team_name, div, con)
