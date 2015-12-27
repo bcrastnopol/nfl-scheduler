@@ -1,13 +1,8 @@
 package league
 
-// type Ninterface interface {
-// 	GetName() string
-// }
-
-//league interface
-type Linterface interface {
-	GetConferences() map[string]*Conference
-}
+// import (
+// 	"nfl-scheduler/linter"
+// )
 
 type League struct {
 	name        string
@@ -17,94 +12,6 @@ type League struct {
 func (league *League) GetConferences() map[string]*Conference {
 	return league.conferences
 }
-
-//conference interface
-type Cinterface interface {
-	GetDivisions() map[string]*Division
-}
-
-type Conference struct {
-	name      string
-	divisions map[string]*Division
-}
-
-func (conference *Conference) GetDivisions() map[string]*Division {
-	return conference.divisions
-}
-
-//division interface
-type Dinterface interface {
-	GetTeams() map[string]*Team
-}
-
-type Division struct {
-	name      string
-	teams     map[string]*Team
-	confrence *Conference
-}
-
-func (division *Division) GetTeams() map[string]*Team {
-	return division.teams
-}
-
-//team interface
-type Tinterface interface {
-	AddWin(team *Team) *Team
-	// AddLoss() *Team
-	onSchedule(team *Team) bool
-	GetWins() []*Team
-	GetLosser() []*Team
-	GetSchedule() []*Team
-}
-
-type Team struct {
-	name       string
-	division   *Division
-	conference *Conference
-	wins       []*Team
-	losses     []*Team
-	schedule   []*Team
-}
-
-func NewTeam(
-	name string, division *Division, conference *Conference) *Team {
-	return &Team{name, division, conference, []*Team{}, []*Team{}, []*Team{}}
-}
-
-func (team *Team) GetWins() []*Team {
-	return team.wins
-}
-
-func (team *Team) GetLosses() []*Team {
-	return team.losses
-}
-
-func (team *Team) GetSchedule() []*Team {
-	return team.schedule
-}
-
-// func (team *Team) onSchedule(scheduled *Team) bool {
-// 	_ = "breakpoint"
-// 	for _, t := range team.GetSchedule() {
-// 		if scheduled == t {
-// 			return true
-// 		}
-// 	}
-// 	return false
-// }
-
-// func (team *Team) AddWin(defeated *Team) *Team{
-// 	if team.onSchedule(defeated){
-// 		log.Fatal("Team isn't on schedule")
-// 	}
-// 	played := 0
-// 	for _, w :range team.GetWins() {
-// 		if team == w {
-// 			played++
-// 			if
-// 		}
-// 	}
-// }
 
 // func (team *Team) GetName() string {
 // 	return team.name
