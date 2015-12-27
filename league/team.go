@@ -3,12 +3,25 @@ package league
 import "log"
 
 type Team struct {
-	name       string
-	division   *Division
-	conference *Conference
-	wins       []*Team
-	losses     []*Team
-	schedule   []*Team
+	name         string
+	division     *Division
+	conference   *Conference
+	league       *League
+	wins         []*Team
+	losses       []*Team
+	scheduleInfo *scheduleInfo
+}
+
+type scheduleInfo struct {
+	schedule []*Team
+	// A little bit of a hack to reuse the getDivision interface
+	// Same division name in both conferences
+	opponentDivisions []*Division
+	place             int
+}
+
+func (scheduleInfo *scheduleInfo) GetSchedule() []*Team {
+	return scheduleInfo.schedule
 }
 
 func (team *Team) GetName() string {
@@ -23,8 +36,16 @@ func (team *Team) GetLosses() []*Team {
 	return team.losses
 }
 
+func (team *Team) GetScheduleInfo() *scheduleInfo {
+	return team.scheduleInfo
+}
+
 func (team *Team) GetSchedule() []*Team {
-	return team.schedule
+	return team.GetScheduleInfo().schedule
+}
+
+func (team *Team) GetOpponentDivisions() []*Division {
+	return team.GetScheduleInfo().opponentDivisions
 }
 
 func (team *Team) GetDivision() *Division {
@@ -33,6 +54,10 @@ func (team *Team) GetDivision() *Division {
 
 func (team *Team) GetConference() *Conference {
 	return team.conference
+}
+
+func (team *Team) GetLeague() *League {
+	return team.league
 }
 
 func (team *Team) appendWin(win *Team) {
@@ -44,7 +69,8 @@ func (team *Team) appendLoss(loss *Team) {
 }
 
 func (team *Team) appendToSchedule(scheduled *Team) {
-	team.schedule = append(team.schedule, scheduled)
+	sched := team.GetScheduleInfo().GetSchedule()
+	sched = append(sched, scheduled)
 }
 func (team *Team) onSchedule(scheduled *Team) bool {
 	_ = "breakpoint"
@@ -78,6 +104,7 @@ func (team *Team) PlayGame(opponent *Team, win bool) {
 }
 
 func NewTeam(
-	name string, division *Division, conference *Conference) *Team {
-	return &Team{name, division, conference, []*Team{}, []*Team{}, []*Team{}}
+	name string, d *Division, c *Conference, l *League, place int) *Team {
+	return &Team{name, d, c, l, []*Team{}, []*Team{},
+		&scheduleInfo{[]*Team{}, []*Division{}, place}}
 }

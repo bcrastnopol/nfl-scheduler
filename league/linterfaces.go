@@ -1,19 +1,6 @@
 package league
 
-//name interface
-type IName interface {
-	GetName() string
-}
-
-//get division interface
-type IGetDivision interface {
-	GetDivision() *Division
-}
-
-//get conference interface
-type IGetConference interface {
-	getConference() *Conference
-}
+//Struct Interfaces
 
 //league interface
 type ILeague interface {
@@ -33,11 +20,42 @@ type IDivision interface {
 //team interface
 type ITeam interface {
 	PlayGame(team *Team)
-	onSchedule(team *Team) bool
 	GetWins() []*Team
 	GetLosses() []*Team
-	GetSchedule() []*Team
+	GetScheduleInfo() *scheduleInfo
+	GetOpponentDivisions() []*Division
+	onSchedule(team *Team) bool
 	appendWin()
 	appendLoss()
-	appendToSchedule()
+}
+
+type IScheduleInfo interface {
+	appendToSchedule(opponent *Team)
+}
+
+//Getters For Struct Properties
+
+//name interface
+type IGetName interface {
+	GetName() string
+}
+
+//get league interface
+type IGetLeague interface {
+	GetLeague() *League
+}
+
+//get conference interface
+type IGetConference interface {
+	getConference() *Conference
+}
+
+//get division interface
+type IGetDivision interface {
+	GetDivision() *Division
+}
+
+//get team schedule interface
+type IGetTeamSchedule interface {
+	GetSchedule() map[string]*Team
 }

@@ -52,15 +52,26 @@ func SetUpLeague(name string) *League {
 	}
 	league := &League{name, map[string]*Conference{}}
 	for con_name, con_vals := range team_data {
-		con := &Conference{con_name, map[string]*Division{}}
+		con := &Conference{con_name, map[string]*Division{}, league}
 		league.GetConferences()[con_name] = con
 		for div_name, div_vals := range con_vals {
-			div := &Division{div_name, map[string]*Team{}, con}
+			div := &Division{div_name, map[string]*Team{}, con, league}
 			con.GetDivisions()[div_name] = div
+			place := 0
 			for _, team_name := range div_vals {
-				div.GetTeams()[team_name] = NewTeam(team_name, div, con)
+				place++
+				div.GetTeams()[team_name] = NewTeam(team_name, div, con, league, place)
 			}
 		}
 	}
 	return league
 }
+
+// func setSchedules(league *League) {
+// 	for c_name, con := range league.GetConferences() {
+// 		var first_div *Division
+// 		for d_name, div : range con.GetDivisions() {
+
+// 		}
+// 	}
+// }
