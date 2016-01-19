@@ -10,6 +10,7 @@ type Team struct {
 	wins         []*Team
 	losses       []*Team
 	scheduleInfo *scheduleInfo
+
 }
 
 type scheduleInfo struct {
@@ -68,11 +69,33 @@ func (team *Team) appendLoss(loss *Team) {
 	team.losses = append(team.losses, loss)
 }
 
-func (team *Team) appendToSchedule(scheduled *Team) {
-	sched := team.GetScheduleInfo().GetSchedule()
-	sched = append(sched, scheduled)
+func (team *Team) limitedEncounters(encountered *Team, encounters []*Team) bool {
+	div := team.getDivision()
+	for _, opponent := range encounters {
+		seen := 0
+		if encountered == opponent {
+			seen++
+			if div == opponent.getDivision() && seen < 1 {
+				continue
+			}
+			return false 
+		}
+	}
+	return true
 }
-func (team *Team) onSchedule(scheduled *Team) bool {
+
+func (team *Team) appendToSchedule(scheduled *Team) {
+	sched := team.GetSchedule()
+	if (team.limitedEncounters(scheduled, team.GetSchedule())) {
+		sched = append(sched, scheduled)
+	}
+	else {
+			log.Print("Team has already been scheduled enough times")
+	}
+
+}
+
+func (team *Team) onSchedule(scheduled *Team check) bool {
 	_ = "breakpoint"
 	for _, t := range team.GetSchedule() {
 		if scheduled == t {
@@ -82,25 +105,34 @@ func (team *Team) onSchedule(scheduled *Team) bool {
 	return false
 }
 
+func (team *Team) ScheduleOpponent(scheduled *Team) {
+		team.appendToSchedule(scheduled)
+		scheduled.appendToSchedule(team)
+}
+
+
 func (team *Team) PlayGame(opponent *Team, win bool) {
 	if team.onSchedule(opponent) {
 		log.Fatal("Team isn't on schedule")
 	}
 	played := 0
-	for _, opponent := range append(team.GetWins(), team.GetLosses()...) {
-		if team == opponent {
+	for _, prev_opponent := range  {
+		if o == opponent {
 			played++
 			if team.GetDivision() == opponent.GetDivision() && played < 1 {
 				continue
 			}
-			log.Fatal("Team has already played 2x")
+			log.Fatal("Team has already played enough times")
 		}
 	}
+	if (team.limitedEncounters(opponent,
+	 append(team.GetWins(), team.GetLosses()...))){
 	if win {
 		team.appendWin(opponent)
 	} else {
 		team.appendLoss(opponent)
 	}
+}
 }
 
 func NewTeam(

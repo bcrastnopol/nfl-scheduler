@@ -30,7 +30,11 @@ type ITeam interface {
 }
 
 type IScheduleInfo interface {
-	appendToSchedule(opponent *Team)
+	ScheduleOpponent()
+	appendToSchedule()
+	// makes sure a team never encounters a non division opponent more than once
+	// and a division opponent more than twice
+	limitedEncounters() bool
 }
 
 //Getters For Struct Properties

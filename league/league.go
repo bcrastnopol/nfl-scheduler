@@ -67,11 +67,13 @@ func SetUpLeague(name string) *League {
 	return league
 }
 
-// func setSchedules(league *League) {
-// 	for c_name, con := range league.GetConferences() {
-// 		var first_div *Division
-// 		for d_name, div : range con.GetDivisions() {
-
-// 		}
-// 	}
-// }
+func setSchedules(league *League) {
+	for c_name, con := range league.GetConferences() {
+		var first_div *Division
+		for d_name, div : range con.GetDivisions() {
+			for t_name, team : range.div.GetTeams() {
+				
+			}
+		}
+	}
+}
