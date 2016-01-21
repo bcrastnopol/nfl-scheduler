@@ -24,6 +24,7 @@ type ITeam interface {
 	GetLosses() []*Team
 	GetScheduleInfo() *scheduleInfo
 	GetOpponentDivisions() []*Division
+	setOpponentDivisions()
 	onSchedule(team *Team) bool
 	appendWin()
 	appendLoss()

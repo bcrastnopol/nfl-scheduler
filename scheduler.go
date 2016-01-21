@@ -10,5 +10,4 @@ func main() {
 	nfl := league.SetUpLeague("NFL")
 	_ = "breakpoint"
 	fmt.Println(nfl)
-
 }

@@ -25,6 +25,30 @@ func (scheduleInfo *scheduleInfo) GetSchedule() []*Team {
 	return scheduleInfo.schedule
 }
 
+func (scheduleInfo *scheduleInfo) GetOpponentDivisions() []*Division {
+	return scheduleInfo.opponentDivisions
+}
+
+func(team *Team) SetOpponentDivision(div *Division) {
+	ods := team.GetScheduleInfo().GetOpponentDivisions()
+	for _, division := range ods {
+		if div == division{
+			log.Print("Opponent division already set")
+			return
+		}  
+	}
+	td := team.GetDivision() 
+	if div != td && len(ods) < 2 {
+		if len(ods) == 1 && ods[0].GetConference() == div.GetConference() {
+			log.Fatal("Can't play two divisions from the same conference")
+		}
+		for t_name, t := range td {
+			
+		}
+	}
+	scheduleInfo = append(scheduleInfo(div))
+} 
+
 func (team *Team) GetName() string {
 	return team.name
 }
@@ -48,6 +72,7 @@ func (team *Team) GetSchedule() []*Team {
 func (team *Team) GetOpponentDivisions() []*Division {
 	return team.GetScheduleInfo().opponentDivisions
 }
+
 
 func (team *Team) GetDivision() *Division {
 	return team.division
@@ -86,7 +111,7 @@ func (team *Team) limitedEncounters(encountered *Team, encounters []*Team) bool 
 
 func (team *Team) appendToSchedule(scheduled *Team) {
 	sched := team.GetSchedule()
-	if (team.limitedEncounters(scheduled, team.GetSchedule())) {
+	if team.limitedEncounters(scheduled, team.GetSchedule()) {
 		sched = append(sched, scheduled)
 	}
 	else {
@@ -115,24 +140,17 @@ func (team *Team) PlayGame(opponent *Team, win bool) {
 	if team.onSchedule(opponent) {
 		log.Fatal("Team isn't on schedule")
 	}
-	played := 0
-	for _, prev_opponent := range  {
-		if o == opponent {
-			played++
-			if team.GetDivision() == opponent.GetDivision() && played < 1 {
-				continue
-			}
-			log.Fatal("Team has already played enough times")
+	if team.limitedEncounters(opponent,
+	 		append(team.GetWins(), team.GetLosses()...)){
+		if win {
+			team.appendWin(opponent)
+		} else {
+			team.appendLoss(opponent)
 		}
 	}
-	if (team.limitedEncounters(opponent,
-	 append(team.GetWins(), team.GetLosses()...))){
-	if win {
-		team.appendWin(opponent)
-	} else {
-		team.appendLoss(opponent)
+	else {
+			log.Fatal("Team has already played enough times")
 	}
-}
 }
 
 func NewTeam(
